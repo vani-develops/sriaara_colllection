@@ -14,11 +14,12 @@ function App() {
             const json = JSON.parse(text.substring(47, text.length - 2));
             const rows = json.table.rows;
 
-            const sareesData = rows.slice(1).map(row => ({
-                name: row.c[0]?.v || "Unknown Saree",
-                image: row.c[1]?.v || "https://via.placeholder.com/250",
-                link: row.c[2]?.v || "#"
-            }));
+    const sareesData = rows.slice(1).map(row => ({
+            name: (row.c[0] && row.c[0].v) ? row.c[0].v : "Unknown Saree",
+            image: (row.c[1] && row.c[1].v) ? row.c[1].v : "https://via.placeholder.com/250",
+            link: (row.c[2] && row.c[2].v) ? row.c[2].v : "#"
+        }));
+
 
             setSarees(sareesData);
         }
