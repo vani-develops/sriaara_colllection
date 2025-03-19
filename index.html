@@ -27,35 +27,6 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            padding: 10px;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        .view-toggle {
-            padding: 10px 15px;
-            border: none;
-            background-color: #074427;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 90%;
-            max-width: 200px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .view-toggle:hover {
-            background-color: #d4af37;
-        }
         .saree-container {
             display: flex;
             flex-wrap: wrap;
@@ -95,104 +66,126 @@
         .order-btn:hover {
             background-color: #b08d2d;
         }
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-        .page-btn {
-            padding: 8px 12px;
+        /* Header Styling */
+        header {
             background-color: #074427;
             color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: Arial, sans-serif;
         }
-        .page-btn.active {
-            background-color: #d4af37;
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .header-logo div {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .header-icons input {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+        }
+        .header-icons span {
+            margin: 0 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-       <!-- ✅ New Header Section with Logo -->
-    <header style="background-color: #074427; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif;">
-        
+
+    <!-- ✅ Header Section with Logo and Navigation -->
+    <header>
         <!-- Logo + Brand Name -->
-        <div style="display: flex; align-items: center;">
-            <img src="logo.png" alt="Sriaara Logo" style="height: 40px; margin-right: 10px;">
-            <div style="font-size: 24px; font-weight: bold; letter-spacing: 1px;">SRIAARA</div>
+        <div class="header-logo">
+            <img src="logo.png" alt="Sriaara Logo">
+            <div>SRIAARA</div>
         </div>
         
         <!-- Navigation Links -->
         <nav>
-            <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Home</a>
-            <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Shop</a>
-            <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">About</a>
-            <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Contact</a>
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
         </nav>
         
         <!-- Search + Icons -->
-        <div>
-            <input type="text" placeholder="Search..." style="padding: 5px; border-radius: 5px; border: none; margin-right: 10px;"/>
+        <div class="header-icons">
+            <input type="text" placeholder="Search...">
             <span>🔍</span>
-            <span style="margin: 0 10px;">❤️</span>
+            <span>❤️</span>
             <span>🛒</span>
         </div>
     </header>
     
-    <div class="saree-container grid" id="sareeContainer"></div>
-    <div class="pagination" id="pagination"></div>
+    <!-- ✅ Saree Collection Container (Without Grid/List Toggle) -->
+    <div class="saree-container" id="sareeContainer"></div>
 
 <script>
     let sarees = [];
     let currentPage = 1;
     const itemsPerPage = 10;
-    let currentView = 'grid';
 
-   async function fetchSarees() {
-    const sheetURL = "https://docs.google.com/spreadsheets/d/139WZkf0zqrcRmbrjeib0cTgwkPCPMC35zH1nS74gCQQ/gviz/tq?tqx=out:json";
-    const response = await fetch(sheetURL);
-    const text = await response.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    const rows = json.table.rows;
+    async function fetchSarees() {
+        const sheetURL = "https://docs.google.com/spreadsheets/d/139WZkf0zqrcRmbrjeib0cTgwkPCPMC35zH1nS74gCQQ/gviz/tq?tqx=out:json";
+        const response = await fetch(sheetURL);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47, text.length - 2));
+        const rows = json.table.rows;
 
-    sarees = rows.slice(1).map(row => ({
-        name: row.c[0]?.v || "Unknown Saree",
-        image: row.c[1]?.v || "https://via.placeholder.com/250",
-        availability: row.c[2]?.v || "Available",  
-        whatsapp: `https://wa.me/9381403370?text=Hello!%20I'm%20interested%20in%20the%20${encodeURIComponent(row.c[0]?.v || "saree")}.%20Can%20you%20share%20the%20details?`
-    }));
-    renderSarees();
-}
+        sarees = rows.slice(1).map(row => ({
+            name: row.c[0]?.v || "Unknown Saree",
+            image: row.c[1]?.v || "https://via.placeholder.com/250",
+            availability: row.c[2]?.v || "Available",  
+            whatsapp: `https://wa.me/9381403370?text=Hello!%20I'm%20interested%20in%20the%20${encodeURIComponent(row.c[0]?.v || "saree")}.%20Can%20you%20share%20the%20details?`
+        }));
+        renderSarees();
+    }
 
     function renderSarees() {
-    const sareeContainer = document.getElementById("sareeContainer");
-    sareeContainer.className = `saree-container ${currentView}`;
-    sareeContainer.innerHTML = "";
+        const sareeContainer = document.getElementById("sareeContainer");
+        sareeContainer.innerHTML = "";
 
-    let start = (currentPage - 1) * itemsPerPage;
-    let end = start + itemsPerPage;
-    let paginatedItems = sarees.slice(start, end);
+        let start = (currentPage - 1) * itemsPerPage;
+        let end = start + itemsPerPage;
+        let paginatedItems = sarees.slice(start, end);
 
-    paginatedItems.forEach(saree => {
-        let card = document.createElement("div");
-        card.className = "saree-card";
+        paginatedItems.forEach(saree => {
+            let card = document.createElement("div");
+            card.className = "saree-card";
 
-        let orderButton = `<a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>`;
+            let orderButton = `<a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>`;
 
-        card.innerHTML = `
-            <img src="${saree.image}" alt="${saree.name}">
-            <p class="saree-name">${saree.name}</p>
-            ${orderButton}
-        `;
-        sareeContainer.appendChild(card);
-    });
-
-    renderPagination();
-}
+            card.innerHTML = `
+                <img src="${saree.image}" alt="${saree.name}">
+                <p class="saree-name">${saree.name}</p>
+                ${orderButton}
+            `;
+            sareeContainer.appendChild(card);
+        });
+    }
 
     fetchSarees();
 </script>
+
 </body>
 </html>
