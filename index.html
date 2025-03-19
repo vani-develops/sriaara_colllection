@@ -115,9 +115,16 @@
     </style>
 </head>
 <body>
-        <header style="background-color: #074427; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif;">
-        <div style="font-size: 24px; font-weight: bold; letter-spacing: 1px;">SRIAARA</div>
+       <!-- ✅ New Header Section with Logo -->
+    <header style="background-color: #074427; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif;">
         
+        <!-- Logo + Brand Name -->
+        <div style="display: flex; align-items: center;">
+            <img src="logo.png" alt="Sriaara Logo" style="height: 40px; margin-right: 10px;">
+            <div style="font-size: 24px; font-weight: bold; letter-spacing: 1px;">SRIAARA</div>
+        </div>
+        
+        <!-- Navigation Links -->
         <nav>
             <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Home</a>
             <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Shop</a>
@@ -125,6 +132,7 @@
             <a href="#" style="color: white; text-decoration: none; margin: 0 15px; font-size: 16px;">Contact</a>
         </nav>
         
+        <!-- Search + Icons -->
         <div>
             <input type="text" placeholder="Search..." style="padding: 5px; border-radius: 5px; border: none; margin-right: 10px;"/>
             <span>🔍</span>
@@ -132,14 +140,6 @@
             <span>🛒</span>
         </div>
     </header>
-    <h1>Sriaara Saree Collection</h1>
-    <p class="legend">Follow us on Instagram: <a href="https://www.instagram.com/sriaara_stories" target="_blank">@sriaara_stories</a></p>
-    
-    <div class="controls">
-        <input type="text" class="search-bar" id="searchBar" placeholder="Search sarees..." onkeyup="filterSarees()">
-        <button class="view-toggle" onclick="toggleView('grid')">🔳 Grid View</button>
-        <button class="view-toggle" onclick="toggleView('list')">📋 List View</button>
-    </div>
     
     <div class="saree-container grid" id="sareeContainer"></div>
     <div class="pagination" id="pagination"></div>
