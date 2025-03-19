@@ -66,38 +66,59 @@
         .order-btn:hover {
             background-color: #b08d2d;
         }
-        /* Header Styling */
-        header {
-            background-color: #074427;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        .header-logo {
-            display: flex;
-            align-items: center;
-        }
-        .header-logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        .header-logo div {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 16px;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
+        /* ✅ Header Styling */
+header {
+    background-color: #13100f;
+    color: #0f0d0b;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+.header-logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+.header-logo div {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-family: 'Great Vibes', cursive;
+}
+nav {
+    display: flex;
+    align-items: center;
+}
+.search-container {
+    position: relative;
+}
+.search-container input {
+    padding: 8px 30px 8px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+}
+.search-container span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 16px;
+}
+nav a:hover {
+    text-decoration: underline;
+}
         .header-icons input {
             padding: 5px;
             border-radius: 5px;
@@ -114,24 +135,23 @@
 
     <!-- ✅ Header Section with Logo and Navigation -->
     <header>
-        <!-- Logo + Brand Name -->
-        <div class="header-logo">
-            <img src="logo.png" alt="Sriaara Logo">
-            <div>SRIAARA</div>
-        </div>
-        
-        <!-- Navigation Links -->
-        <nav>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
-        
-        <!-- Search + Icons -->
-        <div class="header-icons">
-            <input type="text" placeholder="Search...">
+    <!-- Logo + Brand Name -->
+    <div class="header-logo">
+        <img src="logo.png" alt="Sriaara Logo">
+        <div>SRIAARA</div>
+    </div>
+    
+    <!-- Navigation Links + Search -->
+    <nav>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search sarees..." onkeyup="searchSarees()">
             <span>🔍</span>
         </div>
-    </header>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
     
     <!-- ✅ Saree Collection Container (Without Grid/List Toggle) -->
     <div class="saree-container" id="sareeContainer"></div>
@@ -181,6 +201,13 @@
     }
 
     fetchSarees();
+
+        function searchSarees() {
+    let query = document.getElementById("searchBar").value.toLowerCase();
+    let filteredSarees = sarees.filter(saree => saree.name.toLowerCase().includes(query));
+    renderSarees(filteredSarees);
+    }
+    
 </script>
 
 </body>
