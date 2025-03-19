@@ -68,6 +68,21 @@
             height: auto;
             border-radius: 8px;
         }
+
+                .social {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between elements */
+        }
+        
+        .social i {
+            margin-right: 5px; /* Space between icon and text */
+        }
+        
+        .separator {
+            margin: 0 10px; /* Space around the separator */
+            font-weight: bold;
+        }
         .pagination {
             margin-top: 20px;
             display: flex;
@@ -95,14 +110,15 @@
 <body>
     <div class="header">
         <h1>Sriaara</h1>
-        <div class="social">
-        <a href="https://www.instagram.com/sriaara" target="_blank">
-            <i class="fab fa-instagram"></i> <span>Sriaara</span>
-        </a>
-        <a href="https://wa.me/1123454567?text=Hi%2C%20I%20wanted%20to%20check%20your%20collection." target="_blank">
-            <i class="fab fa-whatsapp"></i> Contact
-        </a>
-    </div>
+                <div class="social">
+            <a href="https://www.instagram.com/sriaara_stores" target="_blank">
+                <i class="fab fa-instagram"></i> Sriaara_stores
+            </a>
+            <span class="separator">|</span>
+            <a href="https://wa.me/1123454567?text=Hi%2C%20I%20wanted%20to%20check%20your%20collection." target="_blank">
+                Contact
+            </a>
+        </div>
     </div>
     
     
