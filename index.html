@@ -26,9 +26,12 @@
             justify-content: space-between;
             align-items: center;
             background-color: #03160b;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             color: white;
             padding: 15px 20px;
             padding-bottom: 10px;
+            margin: 10px; /* Adds some breathing space around */
         }
         .header h1 {
             font-family: 'Playfair Display', serif;
@@ -112,6 +115,12 @@
             background-color: #d4af37;
         }
         @media (max-width: 768px) {
+            .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+        border-radius: 10px; /* Keeping rounded for mobile */
+    }
             .saree-container {
                 grid-template-columns: repeat(2, 1fr);
             }
