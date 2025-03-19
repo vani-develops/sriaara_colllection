@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sriaara Saree Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -13,126 +13,162 @@
             padding: 20px;
             color: #333;
         }
-        
-        /* Header Styling */
-        header {
+        .header {
             background-color: #13100f;
-            color: #dfdf20;
-            padding: 15px 25px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: Arial, sans-serif;
         }
-        
-        .header-logo {
-            display: flex;
-            align-items: center;
-            font-size: 28px;
-            font-weight: bold;
+        .header h1 {
             font-family: 'Playfair Display', serif;
-            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
             color: #d4af37;
+            font-size: 28px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin: 0;
         }
-
-        nav {
+        .controls {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        
-        .search-container {
-            position: relative;
+        .search-bar {
+            padding: 10px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
-        .search-container input {
-            padding: 8px 30px 8px 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: white;
+        .saree-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
         }
-        .search-container span {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
+        .saree-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 250px;
+            text-align: center;
         }
-        
-        nav a {
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .page-btn {
+            padding: 8px 12px;
+            background-color: #074427;
             color: white;
-            text-decoration: none;
-            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
         }
-        
+        .page-btn.active {
+            background-color: #d4af37;
+        }
         @media (max-width: 768px) {
-            header {
+            .header {
                 flex-direction: column;
                 text-align: center;
             }
-            nav {
+            .saree-container {
                 flex-direction: column;
-                gap: 10px;
-                margin-top: 10px;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-logo">SRIAARA</div>
-        <nav>
-            <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search sarees..." onkeyup="searchSarees()">
-                <span>🔍</span>
-            </div>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
-    
+    <div class="header">
+        <h1>Sriaara</h1>
+        <input type="text" class="search-bar" id="searchBar" placeholder="Search sarees..." onkeyup="filterSarees()">
+    </div>
     <div class="saree-container" id="sareeContainer"></div>
+    <div class="pagination" id="pagination"></div>
+<script>
+    let sarees = [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
 
-    <script>
-        let sarees = [];
-        async function fetchSarees() {
-            const sheetURL = "https://docs.google.com/spreadsheets/d/139WZkf0zqrcRmbrjeib0cTgwkPCPMC35zH1nS74gCQQ/gviz/tq?tqx=out:json";
-            const response = await fetch(sheetURL);
-            const text = await response.text();
-            const json = JSON.parse(text.substring(47, text.length - 2));
-            const rows = json.table.rows;
+    async function fetchSarees() {
+        const sheetURL = "https://docs.google.com/spreadsheets/d/139WZkf0zqrcRmbrjeib0cTgwkPCPMC35zH1nS74gCQQ/gviz/tq?tqx=out:json";
+        const response = await fetch(sheetURL);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47, text.length - 2));
+        const rows = json.table.rows;
 
-            sarees = rows.slice(1).map(row => ({
-                name: row.c[0]?.v || "Unknown Saree",
-                image: row.c[1]?.v || "https://via.placeholder.com/250",
-                availability: row.c[2]?.v || "Available",  
-                whatsapp: `https://wa.me/9381403370?text=Hello!%20I'm%20interested%20in%20the%20${encodeURIComponent(row.c[0]?.v || "saree")}.%20Can%20you%20share%20the%20details?`
-            }));
-            renderSarees(sarees);
+        sarees = rows.slice(1).map(row => ({
+            name: row.c[0]?.v || "Unknown Saree",
+            description: row.c[1]?.v || "",
+            image: row.c[2]?.v || "https://via.placeholder.com/250",
+            availability: row.c[3]?.v || "Available",  
+            whatsapp: `https://wa.me/9381403370?text=Hello!%20I'm%20interested%20in%20the%20${encodeURIComponent(row.c[0]?.v || "saree")}.%20Can%20you%20share%20the%20details?`
+        }));
+        renderSarees();
+    }
+
+    function renderSarees() {
+        const sareeContainer = document.getElementById("sareeContainer");
+        sareeContainer.innerHTML = "";
+
+        let start = (currentPage - 1) * itemsPerPage;
+        let end = start + itemsPerPage;
+        let paginatedItems = sarees.slice(start, end);
+
+        paginatedItems.forEach(saree => {
+            let card = document.createElement("div");
+            card.className = "saree-card";
+
+            let isSoldOut = saree.availability.toLowerCase() === "sold out";
+            let orderButton = isSoldOut 
+                ? `<button class="order-btn sold-out" disabled>Sold Out</button>` 
+                : `<a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>`;
+
+            card.innerHTML = `
+                <img src="${saree.image}" alt="${saree.name}">
+                <p class="saree-name">${saree.name}</p>
+                <p class="saree-desc">${saree.description}</p>
+                ${orderButton}
+            `;
+            sareeContainer.appendChild(card);
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        let pageCount = Math.ceil(sarees.length / itemsPerPage);
+        for (let i = 1; i <= pageCount; i++) {
+            let btn = document.createElement("button");
+            btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+            btn.textContent = i;
+            btn.onclick = () => {
+                currentPage = i;
+                renderSarees();
+            };
+            pagination.appendChild(btn);
         }
+    }
 
-        function renderSarees(filteredSarees = sarees) {
-            const sareeContainer = document.getElementById("sareeContainer");
-            sareeContainer.innerHTML = "";
-            
-            filteredSarees.forEach(saree => {
-                let card = document.createElement("div");
-                card.className = "saree-card";
-                card.innerHTML = `
-                    <img src="${saree.image}" alt="${saree.name}">
-                    <p class="saree-name">${saree.name}</p>
-                    <a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>
-                `;
-                sareeContainer.appendChild(card);
-            });
-        }
+    function filterSarees() {
+        let query = document.getElementById("searchBar").value.toLowerCase();
+        sarees = sarees.filter(saree => 
+            saree.name.toLowerCase().includes(query) || 
+            saree.description.toLowerCase().includes(query)
+        );
+        currentPage = 1;
+        renderSarees();
+    }
 
-        function searchSarees() {
-            let query = document.getElementById("searchBar").value.toLowerCase();
-            let filteredSarees = sarees.filter(saree => saree.name.toLowerCase().includes(query));
-            renderSarees(filteredSarees);
-        }
-
-        fetchSarees();
-    </script>
+    fetchSarees();
+</script>
 </body>
 </html>
