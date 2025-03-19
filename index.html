@@ -53,7 +53,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
         }
         .saree-card {
             background: white;
@@ -95,12 +95,16 @@
 <body>
     <div class="header">
         <h1>Sriaara</h1>
-        <p class="legend">Follow us on <a href="https://www.instagram.com/sriaara_stories" target="_blank">@sriaara_stories</a></p>
+        <div class="social">
+        <a href="https://www.instagram.com/sriaara" target="_blank">
+            <i class="fab fa-instagram"></i> <span>Sriaara</span>
+        </a>
+        <a href="https://wa.me/1123454567?text=Hi%2C%20I%20wanted%20to%20check%20your%20collection." target="_blank">
+            <i class="fab fa-whatsapp"></i> Contact
+        </a>
+    </div>
     </div>
     
-    <div class="controls">
-        <input type="text" class="search-bar" id="searchBar" placeholder="Search sarees..." onkeyup="filterSarees()">
-    </div>
     
     <div class="saree-container" id="sareeContainer"></div>
     <div class="pagination" id="pagination"></div>
