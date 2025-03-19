@@ -4,22 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sriaara Saree Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #fdfaf5;
+            background-color: #f8f4ec;
             text-align: center;
             padding: 20px;
             color: #333;
         }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            width: 150px;
+            height: auto;
+        }
         h1 {
             font-family: 'Playfair Display', serif;
             color: #074427;
-            font-size: 28px;
+            font-size: 32px;
         }
         .legend {
-            margin: 15px 0;
+            margin: 10px 0;
             font-size: 16px;
         }
         .legend a {
@@ -31,26 +38,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
-        .search-bar {
-            padding: 10px;
-            width: 90%;
-            max-width: 400px;
+        .search-bar, .view-toggle {
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid #ccc;
+            font-size: 16px;
         }
         .view-toggle {
-            padding: 10px 15px;
-            border: none;
             background-color: #074427;
             color: white;
-            border-radius: 8px;
             cursor: pointer;
-            width: 90%;
-            max-width: 200px;
-            font-size: 16px;
             transition: 0.3s;
         }
         .view-toggle:hover {
@@ -60,40 +60,35 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
+            padding-top: 10px;
         }
         .saree-card {
             background: white;
             padding: 15px;
             border-radius: 12px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             max-width: 250px;
             text-align: center;
+            transition: transform 0.3s;
         }
-        .list .saree-card {
-            max-width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px;
+        .saree-card:hover {
+            transform: translateY(-5px);
         }
         .saree-card img {
             width: 100%;
             height: auto;
             border-radius: 8px;
         }
-        .list .saree-card img {
-            width: 100px;
-        }
         .saree-name {
-            font-family: 'Pacifico', cursive;
-            color: #078427;
-            font-size: 18px;
-            font-weight: 500;
-            margin: 8px 0;
+            font-family: 'Playfair Display', serif;
+            color: #222;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 10px 0;
         }
         .order-btn {
-            display: block;
+            display: inline-block;
             margin-top: 10px;
             padding: 10px;
             background-color: #d4af37;
@@ -105,124 +100,44 @@
         .order-btn:hover {
             background-color: #b08d2d;
         }
-        .order-btn.sold-out {
-            background-color: grey;
-            cursor: not-allowed;
-        }
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-        .page-btn {
-            padding: 8px 12px;
-            background-color: #074427;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .page-btn.active {
-            background-color: #d4af37;
-        }
-        
-        /* Hide view toggle buttons on desktop */
-        @media (min-width: 769px) {
-            .view-toggle {
-                display: none !important;
-            }
-        }
-
-        /* Mobile Grid & List View */
-        @media (max-width: 768px) {
-            .saree-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 per row in mobile grid */
-            }
-        }
-
-        /* List view for mobile */
-        .list-view .saree-container {
-            display: block;
-        }
-        .list-view .saree-card {
-            width: 90%;
-            margin: 0 auto;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .list-view .saree-card img {
-            width: 100px;
-            height: auto;
-        }
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="https://via.placeholder.com/150" alt="Sriaara Logo">
+    </div>
     <h1>Sriaara Saree Collection</h1>
+    <p class="legend">Follow us on Instagram: <a href="https://www.instagram.com/sriaara_stories" target="_blank">@sriaara_stories</a></p>
     
     <div class="controls">
-        <input type="text" class="search-bar" id="searchBar" placeholder="Search sarees..." onkeyup="filterSarees()">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Search sarees...">
         <button class="view-toggle" onclick="toggleView('grid')">🔳 Grid View</button>
         <button class="view-toggle" onclick="toggleView('list')">📋 List View</button>
     </div>
     
-    <div class="saree-container grid" id="sareeContainer"></div>
-    <div class="pagination" id="pagination"></div>
+    <div class="saree-container" id="sareeContainer"></div>
+    
+    <script>
+        let sarees = [
+            { name: "Royal Blue Cotton Saree", image: "https://via.placeholder.com/250", whatsapp: "https://wa.me/9381403370?text=Interested in Royal Blue Saree" },
+            { name: "Elegant Silk Saree", image: "https://via.placeholder.com/250", whatsapp: "https://wa.me/9381403370?text=Interested in Elegant Silk Saree" }
+        ];
 
-<script>
-    let sarees = [];
-    let currentPage = 1;
-    const itemsPerPage = 10;
-    let currentView = 'grid';
-
-    async function fetchSarees() {
-        const sheetURL = "https://docs.google.com/spreadsheets/d/139WZkf0zqrcRmbrjeib0cTgwkPCPMC35zH1nS74gCQQ/gviz/tq?tqx=out:json";
-        const response = await fetch(sheetURL);
-        const text = await response.text();
-        const json = JSON.parse(text.substring(47, text.length - 2));
-        const rows = json.table.rows;
-
-        sarees = rows.slice(1).map(row => ({
-            name: row.c[0]?.v || "Unknown Saree",
-            image: row.c[1]?.v || "https://via.placeholder.com/250",
-            availability: row.c[2]?.v || "Available",  
-            whatsapp: `https://wa.me/9381403370?text=Hello!%20I'm%20interested%20in%20the%20${encodeURIComponent(row.c[0]?.v || "saree")}.%20Can%20you%20share%20the%20details?`
-        }));
+        function renderSarees() {
+            const sareeContainer = document.getElementById("sareeContainer");
+            sareeContainer.innerHTML = "";
+            sarees.forEach(saree => {
+                let card = document.createElement("div");
+                card.className = "saree-card";
+                card.innerHTML = `
+                    <img src="${saree.image}" alt="${saree.name}">
+                    <p class="saree-name">${saree.name}</p>
+                    <a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>
+                `;
+                sareeContainer.appendChild(card);
+            });
+        }
         renderSarees();
-    }
-
-    function renderSarees() {
-        const sareeContainer = document.getElementById("sareeContainer");
-        sareeContainer.className = `saree-container ${currentView}`;
-        sareeContainer.innerHTML = "";
-
-        let start = (currentPage - 1) * itemsPerPage;
-        let end = start + itemsPerPage;
-        let paginatedItems = sarees.slice(start, end);
-
-        paginatedItems.forEach(saree => {
-            let card = document.createElement("div");
-            card.className = "saree-card";
-
-            let isSoldOut = saree.availability.toLowerCase() === "sold out";
-            let orderButton = isSoldOut 
-                ? `<button class="order-btn sold-out" disabled>Sold Out</button>` 
-                : `<a class="order-btn" href="${saree.whatsapp}" target="_blank">Order via WhatsApp</a>`;
-
-            card.innerHTML = `
-                <img src="${saree.image}" alt="${saree.name}">
-                <p class="saree-name">${saree.name}</p
-                ${orderButton}
-            `;
-            sareeContainer.appendChild(card);
-        });
-
-        renderPagination();
-    }
-
-    fetchSarees();
-</script>
+    </script>
 </body>
 </html>
